@@ -1,0 +1,25 @@
+image: gradle:alpine
+default:
+  tags:
+    - shellLocal
+
+stages:
+  - test
+
+Integration test with allure:
+  stage: test
+  script:
+    - ./gradlew clean test
+    - ./gradlew allureReport
+  after_script:
+    - ./gradlew allureReport
+    - echo "Allure report lives here - https://${CI_PROJECT_NAMESPACE}.${CI_PAGES_DOMAIN}/-/${CI_PROJECT_NAME}/-/jobs/${CI_JOB_ID}/artifacts/build/reports/allure-report/allureReport/index.html"
+  artifacts:
+    when: always
+    paths:
+      - build/reports/allure-report/*
+
+cache:
+  key: “$CI_COMMIT_REF_NAME”
+  paths:
+    - build/allure-results
