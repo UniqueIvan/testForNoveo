@@ -30,7 +30,7 @@ class UserCRUD {
     @Step("Удаление юзера")
     private fun deleteUser(newUserId: String) {
         val bodyResponse = apiReqResIn.methodDeleteWithOutBody("/api/users/$newUserId")
-        "Проверка , что при обновлении данных юзера, все поля и дата записываются корретно" {
+        "Проверка , что статус код при удалении записи - 204" {
             assertThat(bodyResponse.statusCode).isEqualTo(204)
         }
     }
